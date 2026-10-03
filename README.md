@@ -8,9 +8,12 @@ QR code: [`public/qr-code.png`](public/qr-code.png) / [`public/qr-code.svg`](pub
 ## Edit links
 Add or change a line in the `links` list in `src/App.tsx`.
 
-## Run / deploy
+## Run locally
 ```bash
 npm install
 npm run dev
-npx vercel deploy --prod --yes --archive=tgz
+
 ```
+
+## Deploy
+Pushing to `main` auto-deploys to Vercel.
