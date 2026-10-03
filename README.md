@@ -12,7 +12,6 @@ Add or change a line in the `links` list in `src/App.tsx`.
 ```bash
 npm install
 npm run dev
-
 ```
 
 ## Deploy
