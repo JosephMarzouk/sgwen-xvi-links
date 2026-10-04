@@ -1,5 +1,8 @@
-import { ChevronRight, MapPin } from 'lucide-react'
-import type { ComponentProps } from 'react'
+import { ChevronRight, MapPin, Moon, Sun } from 'lucide-react'
+import confetti from 'canvas-confetti'
+import { useEffect, useState, type ComponentProps } from 'react'
+import { flushSync } from 'react-dom'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 
 // lucide-react v1 dropped brand icons, so these two are inlined.
@@ -23,11 +26,60 @@ const links = [
   { label: 'Festival Location', sub: 'Open in Google Maps', href: 'https://maps.app.goo.gl/GQUgrY6ehC5FoxeP8', icon: MapPin, color: 'bg-accent' },
 ]
 
+// One confetti burst from each side, fired when the 🎉 poppers finish sliding in.
+function firePoppers() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  const burst = { particleCount: 90, spread: 55, startVelocity: 60, ticks: 260, zIndex: 50,
+    colors: ['#6b7a3a', '#ef8a2b', '#f4c430', '#d62976', '#2ec4b6', '#ffffff'] }
+  confetti({ ...burst, angle: 60, origin: { x: 0.03, y: 0.75 } })
+  confetti({ ...burst, angle: 120, origin: { x: 0.97, y: 0.75 } })
+}
+
 export default function App() {
+  const [dark, setDark] = useState(false)
+  const [toggled, setToggled] = useState(false) // bulbs stay hidden (no lift animation) until the first toggle
+
+  // Slow cross-fade into the new theme where the browser supports view transitions; instant otherwise.
+  function toggleTheme() {
+    const flip = () => flushSync(() => {
+      document.documentElement.classList.toggle('dark', !dark)
+      setDark(!dark)
+      setToggled(true)
+    })
+    // .ready rejects harmlessly when the browser skips the fade (e.g. tab hidden); the theme still flips.
+    if (document.startViewTransition) document.startViewTransition(flip).ready.catch(() => {})
+    else flip()
+  }
+
+  // Light mode hangs lanterns; dark mode lifts them and drops one connected garland of light bulbs.
+  const lanterns = dark ? 'decor-lift' : 'decor-swing'
+  const bulbs = dark ? 'decor-drop' : toggled ? 'decor-lift' : 'decor-hidden'
+
+  useEffect(() => {
+    const t = setTimeout(firePoppers, 750)
+    return () => clearTimeout(t)
+  }, [])
+
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-[radial-gradient(circle_at_top,oklch(0.9_0.05_120),transparent_60%)] px-4 py-10">
-      <Card className="relative w-full max-w-md gap-0 rounded-3xl border-0 px-5 py-8 has-[>img:first-child]:pt-8 shadow-xl shadow-primary/10 ring-1 ring-primary/10 sm:px-8">
-        <img src="/scarf.jpg" alt="" className="absolute top-3 right-3 size-16 rotate-12 object-contain mix-blend-multiply sm:size-20" />
+    <main className="relative flex min-h-dvh items-center justify-center bg-[radial-gradient(circle_at_top,oklch(0.9_0.05_120),transparent_60%)] px-4 dark:bg-[radial-gradient(circle_at_top,oklch(0.33_0.06_80),transparent_60%)] pt-24 pb-10 sm:pt-28">
+      <div aria-hidden className="decor pointer-events-none absolute inset-x-0 top-0 h-dvh overflow-hidden">
+        <img src="/decor/lanterns.webp" alt="" className={`${lanterns} absolute top-0 left-[2%] w-[26vw] max-w-64`} />
+        <div className="absolute top-0 right-[2%] w-[26vw] max-w-64 -scale-x-100">
+          <img src="/decor/lanterns.webp" alt="" className={`${lanterns} w-full [animation-delay:.5s]`} />
+        </div>
+        <div className={`${bulbs} bulb-glow absolute inset-x-0 top-0 h-[clamp(140px,22vw,260px)] bg-[url(/decor/bulbs-strip.webp)] bg-size-[auto_100%] bg-top bg-repeat-x [animation-delay:.3s]`} />
+        {/* Bunting, off for now:
+        <div className="decor-drop absolute inset-x-0 top-0 h-[clamp(70px,13vw,150px)] bg-[url(/decor/bunting.webp)] bg-size-[auto_100%] bg-repeat-x" />
+        */}
+      </div>
+      <span aria-hidden className="popper fixed bottom-[18%] left-1 text-6xl sm:text-7xl">🎉</span>
+      <span aria-hidden className="popper fixed right-1 bottom-[18%] text-6xl [--d:-1] sm:text-7xl">🎉</span>
+
+      <Card className="relative z-10 w-full max-w-md gap-0 rounded-3xl border-0 px-5 py-8 has-[>img:first-child]:pt-8 shadow-xl shadow-primary/10 ring-1 ring-primary/10 sm:px-8">
+        <img src="/decor/scarf.webp" alt="" className="absolute top-3 right-3 size-16 rotate-12 object-contain sm:size-20" />
+        <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'} className="absolute top-4 left-4 rounded-full">
+          {dark ? <Sun /> : <Moon />}
+        </Button>
         <img src="/logo.jpg" alt="Scouts & Guides of Wadi El-Nil logo" className="mx-auto mb-5 size-28 rounded-full ring-4 ring-accent ring-offset-4 ring-offset-card sm:size-32" />
 
         <h1 className="text-center text-3xl font-extrabold tracking-tight text-primary">SGWEN XVI</h1>
