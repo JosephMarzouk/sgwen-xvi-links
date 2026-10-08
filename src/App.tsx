@@ -19,10 +19,13 @@ const Instagram = (p: ComponentProps<'svg'>) => (
   </svg>
 )
 
+// Fills the whole icon circle, so it ignores the size-5 the list passes in.
+const CarnivalLogo = () => <img src="/carnival-logo.png" alt="" className="size-11 max-w-none object-contain" />
+
 // To add a link, add one line here.
 const links = [
   { label: 'Ceremony Tickets', sub: 'Yearly ceremony details & online booking', href: 'https://xvi-ceremony-tickets.vercel.app/', icon: Ticket, color: 'bg-accent' },
-  { label: 'Facebook Event', sub: 'Join the event on Facebook', href: 'https://web.facebook.com/share/14uhhGW2QLM/', icon: Facebook, color: 'bg-[#1877F2]' },
+  { label: '9th Carnival', sub: 'Join the event on Facebook', href: 'https://web.facebook.com/share/14uhhGW2QLM/', icon: CarnivalLogo, color: 'bg-transparent' },
   { label: 'Facebook', sub: 'Follow our page', href: 'https://www.facebook.com/profile.php?id=100063636416865', icon: Facebook, color: 'bg-[#1877F2]' },
   { label: 'Instagram', sub: '@sgwen__xvi_group', href: 'https://www.instagram.com/sgwen__xvi_group?stkn=MXhkdm1zenUwejBkaQ==', icon: Instagram, color: 'bg-linear-to-tr from-[#feda75] via-[#d62976] to-[#4f5bd5]' },
   { label: 'Festival Location', sub: 'Open in Google Maps', href: 'https://maps.app.goo.gl/GQUgrY6ehC5FoxeP8', icon: MapPin, color: 'bg-accent' },
