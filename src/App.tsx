@@ -1,4 +1,4 @@
-import { ChevronRight, MapPin, Moon, Sun } from 'lucide-react'
+import { ChevronRight, MapPin, Moon, Sun, Ticket } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { useEffect, useState, type ComponentProps } from 'react'
 import { flushSync } from 'react-dom'
@@ -21,6 +21,7 @@ const Instagram = (p: ComponentProps<'svg'>) => (
 
 // To add a link, add one line here.
 const links = [
+  { label: 'Ceremony Tickets', sub: 'Yearly ceremony details & online booking', href: 'https://xvi-ceremony-tickets.vercel.app/', icon: Ticket, color: 'bg-accent' },
   { label: 'Facebook', sub: 'Follow our page', href: 'https://www.facebook.com/profile.php?id=100063636416865', icon: Facebook, color: 'bg-[#1877F2]' },
   { label: 'Instagram', sub: '@sgwen__xvi_group', href: 'https://www.instagram.com/sgwen__xvi_group?stkn=MXhkdm1zenUwejBkaQ==', icon: Instagram, color: 'bg-linear-to-tr from-[#feda75] via-[#d62976] to-[#4f5bd5]' },
   { label: 'Festival Location', sub: 'Open in Google Maps', href: 'https://maps.app.goo.gl/GQUgrY6ehC5FoxeP8', icon: MapPin, color: 'bg-accent' },
