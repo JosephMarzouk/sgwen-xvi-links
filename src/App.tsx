@@ -1,4 +1,4 @@
-import { ChevronRight, MapPin, Moon, Sun, Ticket } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronRight, MapPin, Moon, Sun, Ticket } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { useEffect, useState, type ComponentProps } from 'react'
 import { flushSync } from 'react-dom'
@@ -24,7 +24,7 @@ const CarnivalLogo = () => <img src="/carnival-logo.png" alt="" className="size-
 
 // To add a link, add one line here.
 const links = [
-  { label: 'Ceremony Tickets', sub: 'Yearly ceremony details & online booking', href: 'https://xvi-ceremony-tickets.vercel.app/', icon: Ticket, color: 'bg-accent' },
+  { label: 'Ceremony Tickets', sub: 'Yearly ceremony details & online booking', href: 'https://xvi-ceremony-tickets.vercel.app/', icon: Ticket, color: 'bg-accent', featured: true },
   { label: '9th Carnival', sub: 'Join the event on Facebook', href: 'https://web.facebook.com/share/14uhhGW2QLM/', icon: CarnivalLogo, color: 'bg-transparent' },
   { label: 'Facebook', sub: 'Follow our page', href: 'https://www.facebook.com/profile.php?id=100063636416865', icon: Facebook, color: 'bg-[#1877F2]' },
   { label: 'Instagram', sub: '@sgwen__xvi_group', href: 'https://www.instagram.com/sgwen__xvi_group?stkn=MXhkdm1zenUwejBkaQ==', icon: Instagram, color: 'bg-linear-to-tr from-[#feda75] via-[#d62976] to-[#4f5bd5]' },
@@ -92,14 +92,21 @@ export default function App() {
         <p dir="rtl" lang="ar" className="mt-1 text-center text-base font-bold text-accent">لنا تاريخ .. يقودنا للمستقبل</p>
 
         <nav className="mt-7 flex flex-col gap-3">
-          {links.map(({ label, sub, href, icon: Icon, color }) => (
+          {links.map(({ label, sub, href, icon: Icon, color, featured }) => (
             <a
               key={href}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex min-h-16 items-center gap-4 rounded-2xl bg-muted/70 p-3 transition hover:-translate-y-0.5 hover:bg-muted hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+              className={`${featured ? 'featured-glow' : ''} group relative flex min-h-16 items-center gap-4 rounded-2xl bg-muted/70 p-3 transition hover:-translate-y-0.5 hover:bg-muted hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none`}
             >
+              {featured && (
+                <>
+                  {/* Absolute, inside the card's side padding, so nothing shifts. */}
+                  <ArrowRight aria-hidden className="point-nudge absolute right-full mr-0.5 size-4 text-accent sm:mr-2 sm:size-5" />
+                  <ArrowLeft aria-hidden className="point-nudge absolute left-full ml-0.5 size-4 text-accent [--d:-1] sm:ml-2 sm:size-5" />
+                </>
+              )}
               <span className={`grid size-11 shrink-0 place-items-center rounded-full text-white ${color}`}>
                 <Icon className="size-5" />
               </span>
