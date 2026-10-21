@@ -82,8 +82,8 @@ export default function App() {
 
       <Card className="relative z-10 w-full max-w-md gap-0 rounded-3xl border-0 px-5 py-8 has-[>img:first-child]:pt-8 shadow-xl shadow-primary/10 ring-1 ring-primary/10 sm:px-8">
         <img src="/decor/scarf.webp" alt="" className="absolute top-3 right-3 size-16 rotate-12 object-contain sm:size-20" />
-        <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'} className="absolute top-4 left-4 rounded-full">
-          {dark ? <Sun /> : <Moon />}
+        <Button size="icon" onClick={toggleTheme} aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'} className="absolute top-4 left-4 size-12 rounded-full bg-accent text-white hover:bg-accent/90 sm:size-14">
+          {dark ? <Sun className="size-6 sm:size-7" /> : <Moon className="size-6 sm:size-7" />}
         </Button>
         <img src="/logo.jpg" alt="Scouts & Guides of Wadi El-Nil logo" className="mx-auto mb-5 size-28 rounded-full ring-4 ring-accent ring-offset-4 ring-offset-card sm:size-32" />
 
